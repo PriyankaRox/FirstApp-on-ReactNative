@@ -1,74 +1,95 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { HelloWave } from "@/components/HelloWave";
+import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import React, { useState } from "react";
+import {
+  TextInput,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  StyleProp,
+  Platform,
+  Button,
+  Alert
+} from "react-native";
+import DimensionsApp from "./dimensionsApp";
+import MediaQueriesApp from "./mediaQueriesApp";
 
 export default function HomeScreen() {
+  const [text, setText] = useState("");
+  const textStyles = StyleSheet.compose<any>(styles.text, styles.highlighted);
+  // const textStyles  = StyleProp <TextStyle> = [styles.text, styles.highlighted]
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <Text>Hi I am Pinks here......</Text>
+      <Text style={styles.text}>Hello, ReactNative!</Text>
+      <Image
+        source={{
+          uri: "https://i.pinimg.com/550x/c2/5e/31/c25e3114ebf041852be0292200727e92.jpg"
+        }}
+        style={{ width: 100, height: 100 }}
+      ></Image>
+      <TextInput
+        placeholder="Enter your fav hobby"
+        onChangeText={setText}
+        style={{ borderWidth: 1, padding: 10, marginBottom: 10 }}
+      />
+      <Text>Your fav hobby is: {text}</Text>
+
+      <Button
+        title="Press Me"
+        onPress={() => Alert.alert("Button Pressed!")}
+      ></Button>
+
+      {/* <Text style={[styles.text, isHighlighted && styles.highlighted]}>Dynamic Styled text</Text> */}
+
+      {/* Platform specific styling */}
+
+      <Text style={styles.platformtext}>Platform Specific Styling</Text>
+
+      <Text style={textStyles}>Reusable Styled Text</Text>
+      <DimensionsApp />
+
+      <MediaQueriesApp />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    backgroundColor: Platform.OS === "ios" ? "grey" : "#e0ffe0",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  text: {
+    fontSize: 20,
+    color: "black"
+  },
+  highlighted: {
+    color: "red",
+    fontWeight: "bold"
+  },
+  platformtext: {
+    fontSize: Platform.OS === "ios" ? 18 : 20,
+    color: Platform.select({ ios: "blue", android: "green" })
+  },
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8
   },
   stepContainer: {
     gap: 8,
-    marginBottom: 8,
+    marginBottom: 8
   },
   reactLogo: {
     height: 178,
     width: 290,
     bottom: 0,
     left: 0,
-    position: 'absolute',
-  },
+    position: "absolute"
+  }
 });
